@@ -52,6 +52,8 @@ namespace PolynomialLogic
 
                 return coefficients[index];
             }
+
+            private set => coefficients[index] = value;
         }
 
         /// <summary>

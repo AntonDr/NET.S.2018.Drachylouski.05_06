@@ -10,29 +10,39 @@ namespace PolynomialLogic
     {
         private readonly double[] coefficients;
 
-        public Polynomial(double [] coefficients)
+        public Polynomial(double[] coefficients)
         {
-            this.coefficients= new double[coefficients.Length];
-            Array.Copy(coefficients,this.coefficients,coefficients.Length);
+            this.coefficients = new double[coefficients.Length];
+            Array.Copy(coefficients, this.coefficients, coefficients.Length);
         }
 
         public int PolynomialPower => coefficients.Length;
 
-        public double[] Coefficients
+        public double this[int n]
         {
             get
             {
-                int n = PolynomialPower;
+                if (n > PolynomialPower || n < 1)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
 
-                var temp = new double[n];
-
-                Array.Copy(coefficients,temp,n);
-
-                return temp;
+                return coefficients[n];
             }
         }
 
-        public double this[int n] => coefficients[n];
+        public double[] ToArray()
+        {
+
+            int n = PolynomialPower;
+
+            var temp = new double[n];
+
+            Array.Copy(coefficients, temp, n);
+
+            return temp;
+
+        }
 
         public override string ToString()
         {
@@ -40,7 +50,7 @@ namespace PolynomialLogic
 
             int n = PolynomialPower;
 
-            for (int i = 0; i <=n; i++)
+            for (int i = 0; i <= n; i++)
             {
                 sb.Append(this[i] + "a^" + (n - i));
             }
@@ -50,12 +60,19 @@ namespace PolynomialLogic
 
         public override bool Equals(object obj)
         {
-            if (obj==null || GetType() != obj.GetType())
+            if (ReferenceEquals(this,obj))
+            {
+                
+            }
+
+            
+
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
 
-            Polynomial p = (Polynomial) obj;
+            Polynomial p = (Polynomial)obj;
 
             int n = PolynomialPower;
 
@@ -65,7 +82,7 @@ namespace PolynomialLogic
             }
 
 
-            for (int i = 0; i < n;i++)
+            for (int i = 0; i < n; i++)
             {
                 if (Math.Abs(this[i] - p[i]) > Double.Epsilon)
                 {
@@ -81,19 +98,19 @@ namespace PolynomialLogic
             return base.GetHashCode();
         }
 
-        public static bool operator ==(Polynomial a, Polynomial b)
+        public static bool operator ==(Polynomial lhs, Polynomial rhs)
         {
-            return a != null && a.Equals(b);
+            return lhs != null && lhs.Equals(rhs);
         }
 
-        public static bool operator !=(Polynomial a, Polynomial b)
+        public static bool operator !=(Polynomial lhs, Polynomial rhs)
         {
-            return a != null && !a.Equals(b);
+            return !(lhs==rhs);
         }
 
-        public static Polynomial operator +(Polynomial a, Polynomial b)
+        public static Polynomial operator +(Polynomial lhs, Polynomial rhs)
         {
-            int itemsCount = Math.Max(a.PolynomialPower,b.PolynomialPower);
+            int itemsCount = Math.Max(lhs.PolynomialPower, rhs.PolynomialPower);
             var result = new double[itemsCount];
 
             for (int i = 0; i < itemsCount; i++)
@@ -101,24 +118,24 @@ namespace PolynomialLogic
                 double first = 0;
                 double second = 0;
 
-                if (i < a.PolynomialPower)
+                if (i < lhs.PolynomialPower)
                 {
-                    first = a[i];
+                    first = lhs[i];
                 }
-                if (i < b.PolynomialPower)
+                if (i < rhs.PolynomialPower)
                 {
-                    second =b[i];
+                    second = rhs[i];
                 }
 
-                result[i] = first+second;
+                result[i] = first + second;
             }
 
             return new Polynomial(result);
         }
 
-        public static Polynomial operator -(Polynomial a, Polynomial b)
+        public static Polynomial operator -(Polynomial lhs, Polynomial rhs)
         {
-            int itemsCount = Math.Max(a.PolynomialPower, b.PolynomialPower);
+            int itemsCount = Math.Max(lhs.PolynomialPower, rhs.PolynomialPower);
             var result = new double[itemsCount];
 
             for (int i = 0; i < itemsCount; i++)
@@ -126,13 +143,13 @@ namespace PolynomialLogic
                 double first = 0;
                 double second = 0;
 
-                if (i < a.PolynomialPower)
+                if (i < lhs.PolynomialPower)
                 {
-                    first = a[i];
+                    first = lhs[i];
                 }
-                if (i < b.PolynomialPower)
+                if (i < rhs.PolynomialPower)
                 {
-                    second = b[i];
+                    second = rhs[i];
                 }
 
                 result[i] = first - second;
@@ -141,16 +158,16 @@ namespace PolynomialLogic
             return new Polynomial(result);
         }
 
-        public static Polynomial operator *(Polynomial a, Polynomial b)
+        public static Polynomial operator *(Polynomial lhs, Polynomial rhs)
         {
-            int itemsCount = a.PolynomialPower + b.PolynomialPower - 1;
+            int itemsCount = lhs.PolynomialPower + rhs.PolynomialPower - 1;
             var result = new double[itemsCount];
 
-            for (int i = 0; i < a.PolynomialPower; i++)
+            for (int i = 0; i < lhs.PolynomialPower; i++)
             {
-                for (int j = 0; j < b.PolynomialPower; j++)
+                for (int j = 0; j < rhs.PolynomialPower; j++)
                 {
-                    result[i + j] += a[i] * b[j];
+                    result[i + j] += lhs[i] * rhs[j];
                 }
             }
 

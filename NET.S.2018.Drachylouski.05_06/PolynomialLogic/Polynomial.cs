@@ -9,7 +9,7 @@ namespace PolynomialLogic
     /// <summary>
     /// Class for work with polynomials
     /// </summary>
-    public sealed class Polynomial
+    public sealed class Polynomial:ICloneable,
     {
         private readonly double accurancy = 0.0000001;
 
@@ -141,6 +141,16 @@ namespace PolynomialLogic
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        object ICloneable.Clone()
+        {
+            return new Polynomial(ToArray());
+        }
+
+        public Polynomial Clone()
+        {
+            return new Polynomial(ToArray());
         }
 
         public static bool operator ==(Polynomial lhs, Polynomial rhs)

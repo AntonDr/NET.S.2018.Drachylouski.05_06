@@ -29,7 +29,15 @@ namespace PolynomialLogic
 
         static Polynomial()
         {
-            accuracy = double.Parse(System.Configuration.ConfigurationManager.AppSettings["accurancy"]);
+            try
+            {
+                accuracy = double.Parse(System.Configuration.ConfigurationManager.AppSettings["accurancy"]);
+
+            }
+            catch (ArgumentNullException)
+            {
+                accuracy = 0.000000001;
+            } 
         }
 
         #endregion
@@ -271,6 +279,13 @@ namespace PolynomialLogic
 
             return new Polynomial(result);
         }
+
+        public static Polynomial Add(Polynomial lhs, Polynomial rhs) => lhs + rhs;
+
+        public static Polynomial Multiply(Polynomial lhs, Polynomial rhs) => lhs * rhs;
+
+        public static Polynomial Substract(Polynomial lhs, Polynomial rhs) => lhs - rhs;
+
         #endregion
 
         #region Private methods

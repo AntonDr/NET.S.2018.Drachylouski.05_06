@@ -27,18 +27,18 @@ namespace PolynomialLogic
             Array.Copy(coefficients, this.coefficients, coefficients.Length);
         }
 
-        static Polynomial()
-        {
-            try
-            {
-                accuracy = double.Parse(System.Configuration.ConfigurationManager.AppSettings["accurancy"]);
+        //static Polynomial()
+        //{
+        //    try
+        //    {
+        //        accuracy = double.Parse(System.Configuration.ConfigurationManager.AppSettings["accurancy"]);
 
-            }
-            catch (ArgumentNullException)
-            {
-                accuracy = 0.000000001;
-            } 
-        }
+        //    }
+        //    catch (ArgumentNullException)
+        //    {
+        //        accuracy = 0.000000001;
+        //    } 
+        //}
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace PolynomialLogic
         {
             get
             {
-                if (index > PolynomialPower || index < 1)
+                if (index > PolynomialPower || index < 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -74,7 +74,7 @@ namespace PolynomialLogic
 
             private set
             {
-                if (index > PolynomialPower || index < 1)
+                if (index > PolynomialPower || index < 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -128,7 +128,7 @@ namespace PolynomialLogic
 
             for (int i = 0; i < n; i++)
             {
-                if (Math.Abs(this[i] - polynomial[i]) > accurancy)
+                if (Math.Abs(this[i] - polynomial[i]) > accuracy)
                 {
                     return false;
                 }
@@ -154,11 +154,11 @@ namespace PolynomialLogic
 
             for (int i = 0; i <= n; i++)
             {
-                if (Math.Abs(this[i]) < accurancy)
+                if (Math.Abs(this[i]) < accuracy)
                 {
                     continue;
                 }
-                sb.Append(this[i] + "a^" + (n - i));
+                sb.Append(this[i] + "a^" + (n - i) + '+');
             }
 
             return sb.ToString();
@@ -197,7 +197,7 @@ namespace PolynomialLogic
         {
             unchecked
             {
-                return (accurancy.GetHashCode() * 397) ^ coefficients.GetHashCode();
+                return (accuracy.GetHashCode() * 397) ^ coefficients.GetHashCode();
             }
         }
         #endregion
@@ -205,7 +205,11 @@ namespace PolynomialLogic
         #region Overload operation methods
         public static bool operator ==(Polynomial lhs, Polynomial rhs)
         {
-            return lhs != null && lhs.Equals(rhs);
+            if (ReferenceEquals(lhs,null))
+            {
+                return false;
+            }
+            return lhs.Equals(rhs);
         }
 
         public static bool operator !=(Polynomial lhs, Polynomial rhs)
@@ -297,7 +301,7 @@ namespace PolynomialLogic
         /// <exception cref="ArgumentNullException">Polynomial can't be null</exception>
         private static void Validate(Polynomial polynomial1, Polynomial polynomial2)
         {
-            if (polynomial1 == null || polynomial2 == null)
+            if (ReferenceEquals(polynomial1,null) || ReferenceEquals(polynomial2,null))
             {
                 throw new ArgumentNullException("Polynomial can't be null");
             }
@@ -310,7 +314,7 @@ namespace PolynomialLogic
         /// <exception cref="ArgumentNullException">polynomial</exception>
         private static void Validate(Polynomial polynomial)
         {
-            if (polynomial == null)
+            if (ReferenceEquals(polynomial,null))
             {
                 throw new ArgumentNullException($"{nameof(polynomial)} can't be null");
             }

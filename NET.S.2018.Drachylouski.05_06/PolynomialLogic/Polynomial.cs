@@ -89,7 +89,7 @@ namespace PolynomialLogic
 
             for (int i = 0; i < n; i++)
             {
-                if (Math.Abs(this[i] - p[i]) > Double.Epsilon)
+                if (Math.Abs(this[i] - p[i]) > accurancy)
                 {
                     return false;
                 }
@@ -140,27 +140,7 @@ namespace PolynomialLogic
 
         public static Polynomial operator -(Polynomial lhs, Polynomial rhs)
         {
-            int itemsCount = Math.Max(lhs.PolynomialPower, rhs.PolynomialPower);
-            var result = new double[itemsCount];
-
-            for (int i = 0; i < itemsCount; i++)
-            {
-                double first = 0;
-                double second = 0;
-
-                if (i < lhs.PolynomialPower)
-                {
-                    first = lhs[i];
-                }
-                if (i < rhs.PolynomialPower)
-                {
-                    second = rhs[i];
-                }
-
-                result[i] = first - second;
-            }
-
-            return new Polynomial(result);
+            return lhs+(-rhs);
         }
 
         public static Polynomial operator *(Polynomial lhs, Polynomial rhs)
@@ -179,6 +159,19 @@ namespace PolynomialLogic
             return new Polynomial(result);
         }
 
+        public static Polynomial operator -(Polynomial p)
+        {
+            int n = p.PolynomialPower;
+
+            var result = new double[p.PolynomialPower];
+
+            for (int i = 0; i < n; i++)
+            {
+                result[i] = -1 * p[i];
+            }
+
+            return new Polynomial(result);
+        }
 
     }
 }

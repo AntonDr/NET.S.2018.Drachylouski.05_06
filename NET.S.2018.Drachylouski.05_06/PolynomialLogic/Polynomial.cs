@@ -6,7 +6,11 @@ namespace PolynomialLogic
     /// <summary>
     /// Class for work with polynomials
     /// </summary>
+<<<<<<< HEAD
     public sealed class Polynomial : ICloneable, IEquatable<Polynomial>
+=======
+    public sealed class Polynomial:ICloneable
+>>>>>>> c9295be428bb3bbf8565215ee3192711547eb2ab
     {
         #region Private fields
 

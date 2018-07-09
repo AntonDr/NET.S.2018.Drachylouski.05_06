@@ -6,15 +6,11 @@ namespace PolynomialLogic
     /// <summary>
     /// Class for work with polynomials
     /// </summary>
-<<<<<<< HEAD
     public sealed class Polynomial : ICloneable, IEquatable<Polynomial>
-=======
-    public sealed class Polynomial:ICloneable
->>>>>>> c9295be428bb3bbf8565215ee3192711547eb2ab
     {
         #region Private fields
 
-        private static readonly double accurancy = 0.0000001;
+        private static readonly double accuracy = 0.0000001;
 
         /// <summary>
         /// The coefficients
@@ -30,6 +26,12 @@ namespace PolynomialLogic
             this.coefficients = new double[coefficients.Length];
             Array.Copy(coefficients, this.coefficients, coefficients.Length);
         }
+
+        static Polynomial()
+        {
+            accuracy = double.Parse(System.Configuration.ConfigurationManager.AppSettings["accurancy"]);
+        }
+
         #endregion
 
         #region Properties

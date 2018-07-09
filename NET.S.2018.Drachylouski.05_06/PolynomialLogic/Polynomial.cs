@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace PolynomialLogic
 {
+    /// <summary>
+    /// Class for work with polynomials
+    /// </summary>
     public sealed class Polynomial
     {
         private readonly double accurancy = 0.0000001;
 
+        /// <summary>
+        /// The coefficients
+        /// </summary>
         private readonly double[] coefficients;
 
         public Polynomial(double[] coefficients)
@@ -18,21 +24,40 @@ namespace PolynomialLogic
             Array.Copy(coefficients, this.coefficients, coefficients.Length);
         }
 
+        /// <summary>
+        /// Gets the polynomial power.
+        /// </summary>
+        /// <value>
+        /// The polynomial power.
+        /// </value>
         public int PolynomialPower => coefficients.Length;
 
-        public double this[int n]
+        /// <summary>
+        /// Gets the <see cref="System.Double"/> at the specified index.
+        /// </summary>
+        /// <value>
+        /// The <see cref="System.Double"/>.
+        /// </value>
+        /// <param name="index">The index.</param>
+        /// <returns><see cref="System.Double"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public double this[int index]
         {
             get
             {
-                if (n > PolynomialPower || n < 1)
+                if (index > PolynomialPower || index < 1)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                return coefficients[n];
+                return coefficients[index];
             }
         }
 
+        /// <summary>
+        /// To the array.
+        /// </summary>
+        /// <returns>Array of coefficents</returns>
         public double[] ToArray()
         {
 
@@ -46,6 +71,12 @@ namespace PolynomialLogic
 
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -60,6 +91,13 @@ namespace PolynomialLogic
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this,obj))

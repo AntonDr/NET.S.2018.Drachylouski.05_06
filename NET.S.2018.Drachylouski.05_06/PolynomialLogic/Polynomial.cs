@@ -8,6 +8,8 @@ namespace PolynomialLogic
 {
     public sealed class Polynomial
     {
+        private readonly double accurancy = 0.0000001;
+
         private readonly double[] coefficients;
 
         public Polynomial(double[] coefficients)
@@ -62,12 +64,15 @@ namespace PolynomialLogic
         {
             if (ReferenceEquals(this,obj))
             {
-                
+                return true;
             }
 
-            
+            if (obj ==null)
+            {
+                return false;
+            }
 
-            if (obj == null || GetType() != obj.GetType())
+            if (GetType() != obj.GetType())
             {
                 return false;
             }
